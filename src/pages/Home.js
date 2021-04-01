@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useQuery } from '@apollo/client'
 import { Grid, GridColumn, Transition } from 'semantic-ui-react'
+import { useMediaPredicate } from "react-media-hook";
 
 import { AuthContext } from '../context/auth'
 import PostCard from '../components/PostCard'
@@ -10,9 +11,11 @@ import { FETCH_POSTS_QUERY} from '../util/graphql'
 function Home() {
     const { loading, data: { getPosts: posts }={} } = useQuery(FETCH_POSTS_QUERY);
     const { user } = useContext(AuthContext)
+    const biggerThan400 = useMediaPredicate("(min-width: 700px)");
+    const rows = biggerThan400?3:1;
 
     return (
-    <Grid columns={3} >
+    <Grid columns={rows} >
         <Grid.Row className="page-title">
             <h1>Recent Posts</h1>
         </Grid.Row>
